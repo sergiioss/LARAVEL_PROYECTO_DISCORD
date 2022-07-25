@@ -24,8 +24,8 @@ class AuthController extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
         $user = User::create([
-            'name' => $request->get('username'),
-            'steamUserName' => $request->get('steamusername'),
+            'username' => $request->get('username'),
+            'steamusername' => $request->get('steamusername'),
             'email' => $request->get('email'),
             'password' => bcrypt($request->password)
         ]);

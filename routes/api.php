@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GameController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,4 +43,13 @@ Route::group(["middleware" => ["jwt.auth", "isSuperAdmin"]] , function() {
     /* ----------------------- SUPER ADMIN ------------------------- */
         Route::post('/user/super_admin/{id}', [UserController::class, 'rolSuperAdmin']);
         Route::post('/user/delete_super_admin/{id}', [UserController::class, 'deleteRolSuperAdmin']);
+    });
+
+/* ------------------------ GAME CONTROLLER -------------------------- */
+
+Route::group(["middleware" => "jwt.auth"] , function() {
+        Route::post('/create', [GameController::class, 'createGame']);
+        Route::get('/gameid', [GameController::class, 'gameId']);
+        Route::put('/updatedgame/{id}', [GameController::class, 'updatedGame']);
+        Route::delete('/deletegame/{id}', [GameController::class, 'deleteGame']);
     });
