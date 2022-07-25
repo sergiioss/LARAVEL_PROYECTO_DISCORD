@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Game extends Model
+class Message extends Model
 {
     use HasFactory;
 
-    public function channels()
-    {
-        return $this->hasMany(Channel::class);
+    public function channel(){
+        return $this->belongsTo(Channel::class);
     }
 
     public function user(){
