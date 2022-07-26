@@ -57,10 +57,9 @@ class GameController extends Controller
         try{
             Log::info('Getting all Games');
 
-        $userId = auth()->user()->id;
+        $game = Game::query()
+        ->get()->games;
 
-        $game = User::find($userId)->games;
-        
         return response()->json([
             'success' => true,
             'message'=> 'Games retrieved succesfull',
