@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -61,4 +62,11 @@ Route::group(["middleware" => "jwt.auth"] , function() {
     Route::get('/channelall', [ChannelController::class, 'channelAll']);
     Route::put('/updatedchannel/{id}', [ChannelController::class, 'updatedChannel']);
     Route::delete('/deletechannel/{id}', [ChannelController::class, 'deleteChannel']);
+});
+
+/* ------------------------ MESSAGE CONTROLLER -------------------------- */
+Route::group(["middleware" => "jwt.auth"] , function() {
+    Route::post('/create/message/{id}', [MessageController::class, 'createMessage']);
+    Route::get('/messagesall', [MessageController::class, 'messagesAll']);
+
 });
