@@ -58,4 +58,7 @@ Route::group(["middleware" => "jwt.auth"] , function() {
 /* ------------------------ CHANEL CONTROLLER -------------------------- */
 Route::group(["middleware" => "jwt.auth"] , function() {
     Route::post('/create/channel/{id}', [ChannelController::class, 'createChannel']);
+    Route::get('/channelall', [ChannelController::class, 'channelAll']);
+    Route::put('/updatedchannel/{id}', [ChannelController::class, 'updatedChannel']);
+    Route::delete('/deletechannel/{id}', [ChannelController::class, 'deleteChannel']);
 });
