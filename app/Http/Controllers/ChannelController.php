@@ -146,7 +146,44 @@ class ChannelController extends Controller
         }
     }
 
-    
+    public function deleteChannel($id){
+        try{
+            Log::info('Delete a channel');
 
+            $userId = auth()->user()->id;
 
+            $channel = DB::table('channel_user')
+            ->where('user_id', $userId)
+            ->where('channel_id', $id)
+            ->get();
+
+            $cuantos = count($channel);
+
+            if($cuantos === 0){
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Ese canal no existe'
+                    ],
+                    
+                );
+            }else{
+                $channel = Channel::find($id);
+                $channel->delete(); 
+            }
+
+            return response()->json([
+                'success'=>true,
+                'message'=> 'Channel' .$id.' deleted'
+            ],200);
+
+        }catch(\Exception $exception){
+            Log::error('Error delete channel' . $exception->getMessage());
+            return response()->json(
+                [
+                    'success'=> false,
+                    'message'=> 'Error delete channel'
+                ],500);
+        }
+    }
 }
