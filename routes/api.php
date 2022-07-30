@@ -62,12 +62,14 @@ Route::group(["middleware" => "jwt.auth"] , function() {
     Route::get('/channelall', [ChannelController::class, 'channelAll']);
     Route::put('/updatedchannel/{id}', [ChannelController::class, 'updatedChannel']);
     Route::delete('/deletechannel/{id}', [ChannelController::class, 'deleteChannel']);
+    Route::put('/loginchannel/{id}', [ChannelController::class, 'loginChannel']);
+    Route::put('/logoutchannel/{id}', [ChannelController::class, 'logoutChannel']);
 });
 
 /* ------------------------ MESSAGE CONTROLLER -------------------------- */
 Route::group(["middleware" => "jwt.auth"] , function() {
-    Route::post('/create/message/{id}', [MessageController::class, 'createMessage']);
-    Route::get('/messagesall', [MessageController::class, 'messagesAll']);
-    Route::put('/updatedmessage/{id}', [MessageController::class, 'updatedMessage']);
-    Route::delete('/deletemessage/{id}', [MessageController::class, 'deleteMessage']);
+    Route::post('/create/message/{channelId}', [MessageController::class, 'createMessage']);
+    Route::get('/messagesall/{channelId}', [MessageController::class, 'messagesAll']);
+    Route::put('/updatedmessage/{channelId}/{messageId}', [MessageController::class, 'updatedMessage']);
+    Route::delete('/deletemessage/{channelId}/{messageId}', [MessageController::class, 'deleteMessage']);
 });

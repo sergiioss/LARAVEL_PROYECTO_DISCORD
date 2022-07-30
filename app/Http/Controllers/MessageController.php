@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class MessageController extends Controller
 {
-    public function createMessage(Request $request, $id)
+    const LOGIN = 1;
+
+    public function createMessage(Request $request, $channelId)
     {
         try {
             Log::info("Creating message");
@@ -28,9 +31,27 @@ class MessageController extends Controller
             $name = $request->input('name');
             $userId = auth()->user()->id;
 
+            $channel = DB::table('channel_user')
+            ->where('user_id', $userId)
+            ->where('channel_id', $channelId)
+            ->where('login', self::LOGIN)
+            ->get();
+
+            $cuantos = count($channel);
+
+            if($cuantos === 0){
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'No estas dentro del canal'
+                    ],
+                    
+                );
+            }
+
             $message = new Message();
             $message->messages = $name;
-            $message->channel_id = $id;
+            $message->channel_id = $channelId;
             $message->user_id = $userId;
 
             $message->save();
@@ -50,13 +71,33 @@ class MessageController extends Controller
         }
     }
 
-    public function messagesAll(){
+    public function messagesAll($channelId){
+        //ESTO LO QUE HACE ES VALIDAR SI ESTAS DENTRO DEL CANAL Y EN CASO DE QUE ESTES QUE TRAIGAS TODOS LOS MENSAJES QUE HAS ESCRITO EN ESE CANAL
         try{
             Log::info('Getting all messages');
 
         $userId = auth()->user()->id;
 
+        $channel = DB::table('channel_user')
+        ->where('user_id', $userId)
+        ->where('channel_id', $channelId)
+        ->where('login', self::LOGIN)
+        ->get();
+
+        $cuantos = count($channel);
+
+        if($cuantos === 0){
+            return response()->json(
+                [
+                    'success' => true,
+                    'message' => 'No estas dentro del canal'
+                ],
+                
+            );
+        }
+
         $messages = Message::where('user_id', $userId)
+        ->where('channel_id', $channelId)
         ->get('messages');
 
         return response()->json([
@@ -74,7 +115,7 @@ class MessageController extends Controller
         }
     }
 
-    public function updatedMessage(Request $request, $id){
+    public function updatedMessage(Request $request, $channelId, $messageId){
         try{
 
             Log::info("Updated Message");
@@ -92,7 +133,27 @@ class MessageController extends Controller
 
             $userId = auth()->user()->id;
 
-            $messages = Message::query()->where('user_id', $userId)->find($id);
+            $channel = DB::table('channel_user')
+            ->where('user_id', $userId)
+            ->where('channel_id', $channelId)
+            ->where('login', self::LOGIN)
+            ->get();
+
+            $cuantos = count($channel);
+
+            if($cuantos === 0){
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'No estas dentro del canal'
+                    ],
+                    
+                );
+            }
+
+            $messages = Message::query()
+            ->where('user_id', $userId)
+            ->find($messageId);
 
             if(!$messages){
                 return response()->json(
@@ -113,7 +174,7 @@ class MessageController extends Controller
 
             return response()->json([
                 'success'=> true,
-                'message'=> "Game" .$id. "updated"
+                'message'=> "Game" .$messageId. "updated"
             ],200);
 
         }catch(\Exception $exception){
@@ -127,15 +188,33 @@ class MessageController extends Controller
         }
     }
 
-    public function deleteMessage($id){
+    public function deleteMessage($channelId, $messageId){
         try{
             Log::info('Delete a message');
 
             $userId = auth()->user()->id;
 
+            $channel = DB::table('channel_user')
+            ->where('user_id', $userId)
+            ->where('channel_id', $channelId)
+            ->where('login', self::LOGIN)
+            ->get();
+
+            $cuantos = count($channel);
+
+            if($cuantos === 0){
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'No estas dentro del canal'
+                    ],
+                    
+                );
+            }
+            
             $message = Message::query()
             ->where('user_id', $userId)
-            ->find($id);
+            ->find($messageId);
 
             if(!$message){
                 return response()->json([
@@ -148,7 +227,7 @@ class MessageController extends Controller
 
             return response()->json([
                 'success'=>true,
-                'message'=> 'Message' .$id.' deleted'
+                'message'=> 'Message' .$messageId.' deleted'
             ],200);
 
         }catch(\Exception $exception){
