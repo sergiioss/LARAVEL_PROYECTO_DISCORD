@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -24,17 +25,15 @@ class AuthController extends Controller
             return response()->json($validator->errors()->toJson(), 400);
         }
         $user = User::create([
-            'name' => $request->get('username'),
-            'steamUserName' => $request->get('steamusername'),
+            'username' => $request->get('username'),
+            'steamusername' => $request->get('steamusername'),
             'email' => $request->get('email'),
             'password' => bcrypt($request->password)
         ]);
 
         $user->roles()->attach(self::ROLE_USER);
 
-        $token = JWTAuth::fromUser($user);
-
-        return response()->json(compact('user', 'token'), 201);
+        return response()->json(compact('user'), 201);
     }
 
     public function login(Request $request)
@@ -79,6 +78,80 @@ class AuthController extends Controller
                 'success' => false,
                 'message' => 'Sorry, the user cannot be logged out'
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function updatedUser(Request $request)
+    {
+        try {
+
+            Log::info("Updated User");
+
+            $validator = Validator::make($request->all(), [
+                'username' => ['string'],
+                'steamusername' => ['string'],
+                'email' => ['string']
+
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $validator->errors()
+                ], 400);
+            };
+
+            $userEmail = auth()->user()->email;
+
+            $user = User::query()
+                ->where('email', $userEmail)
+                ->get();
+
+            if (!$user) {
+                return response()->json(
+                    [
+                        'success' => true,
+                        'message' => 'Error'
+                    ]
+                );
+            }
+
+            $username = $request->input('username');
+            $steamusername = $request->input('steamusername');
+            $email = $request->input('email');
+
+            if (isset($username)) {
+                $user = User::query()
+                    ->where('email', $userEmail)
+                    ->update(['users.username' => $username]);
+            }
+
+            if (isset($steamusername)) {
+                $user = User::query()
+                    ->where('email', $userEmail)
+                    ->update(['users.steamusername' => $steamusername]);
+            }
+
+            if (isset($email)) {
+                $user = User::query()
+                    ->where('email', $userEmail)
+                    ->update(['users.email' => $email]);
+            }
+
+
+            return response()->json([
+                'success' => true,
+                'message' => "User updated"
+            ], 200);
+        } catch (\Exception $exception) {
+            Log::error('Error updated user' . $exception->getMessage());
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Error updated user'
+                ],
+                500
+            );
         }
     }
 }

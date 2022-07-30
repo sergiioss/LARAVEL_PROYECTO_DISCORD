@@ -1,64 +1,97 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# :computer: Tech Stack:
+![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white) ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white) ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens) ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
+<p align="center"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<h2>Relaciones de las tablas:</h2>
+<p align="center"><img src="/fotos/relaciones.png"></p>
 
-## About Laravel
+<p>En este proyecto se intenta replicar una aplicacion chat, donde se va a poder crear juegos, salas dentro del juego y chats. Del mismo modo se podran borrar, modificar, leer y crear.</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Endpoints:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<strong>Route::get('https://proyecto-discord.herokuapp.com/api')</strong>
+- Devuelve un string "Bienvenido a mi app de chats".
 
-## Learning Laravel
+<h3>Usuarios</h3>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+<strong>Route::put('https://proyecto-discord.herokuapp.com/api/updateduser'</strong>
+- Nos metemos dentro de nuestro perfil y podemos modificar 3 campos, username, steamusername y email.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<strong>Route::post('https://proyecto-discord.herokuapp.com/api/register'</strong>
 
-## Laravel Sponsors
+<strong>Route::post('https://proyecto-discord.herokuapp.com/api/login'</strong>
+- El usuario hace log in introduciendo el email y el password.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+<strong>Route::get('https://proyecto-discord.herokuapp.com/api/info'</strong>
+- Saca la informacion del perfil de usuario.
 
-### Premium Partners
+<strong>Route::post('https://proyecto-discord.herokuapp.com/api/logout'</strong>
+- El usuario hace log out invalidando el token.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+<h3>Super Admin</h3>
 
-## Contributing
+<strong>Route::post('https://proyecto-discord.herokuapp.com/api/user/add_admin/{id}</strong>
+- Añade admin a un usuario. Solo puede realizarlo el superAdmin.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+<strong>Route::post('https://proyecto-discord.herokuapp.com/api/user/delete_admin/{id}'</strong>
+- Borra el admin a un usuario. Solo puede realizarlo un superAdmin.
 
-## Code of Conduct
+<strong>Route::post('https://proyecto-discord.herokuapp.com/api/user/super_admin/{id}</strong>
+- Añade superAdmin a un usuario. Solo puede realizarlo un superAdmin.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+<strong>Route::post('https://proyecto-discord.herokuapp.com/api/user/delete_super_admin/{id}</strong>
+- Elimina un superAdmin de un usuario. Solo puede realizarlo un superAdmin.
 
-## Security Vulnerabilities
+<h3>Juegos</h3>
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+<strong>Route::post('https://proyecto-discord.herokuapp.com/api/create'</strong>
+- El usuario crea un juego.
 
-## License
+<strong>Route::get('https://proyecto-discord.herokuapp.com/api/gameid'</strong>
+- Busca todas las salas de los juegos creados.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<strong>Route::put('https://proyecto-discord.herokuapp.com/api/updatedgame/{id}</strong>
+- Cambia el nombre de la sala de juego.
+
+<strong>Route::delete('https://proyecto-discord.herokuapp.com/api/deletegame/{id}</strong>
+- Elimina la sala del juego siempre y cuando la haya creado el mismo usuario.
+
+<h3>Canales</h3>
+
+<strong>Route::post('https://proyecto-discord.herokuapp.com/api/create/channel/{id}</strong>
+- Crea un canal dentro de un juego.
+
+<strong>Route::get('https://proyecto-discord.herokuapp.com/api/channelall'</strong>
+- Hace una busqueda de todos los canales del juego.
+
+<strong>Route::put('https://proyecto-discord.herokuapp.com/api/updatedchannel/{id}</strong>
+- Modifica el nombre del canal del juego.
+
+<strong>Route::delete('https://proyecto-discord.herokuapp.com/api/deletechannel/{id}</strong>
+- Elimina el canal del juego.
+
+<strong>Route::put('https://proyecto-discord.herokuapp.com/api/loginchannel/{id}'</strong>
+- Entras dentro del canal de chat del juego y puedes crear, modificar, leer todos los mensajes que has escrito y eliminarlos.
+
+<strong>Route::put('https://proyecto-discord.herokuapp.com/api/logoutchannel/{id}'</strong>
+- Haces logout del canal y no puedes enviar mensajes, ni modificarlos, ni traerte todos los mensajes y tampoco eliminarlos.
+
+<h3>Mensajes</h3>
+
+<strong>Route::post('https://proyecto-discord.herokuapp.com/api/create/message/{id}</strong>
+- Crea un mensaje dentro del canal del juego.
+
+<strong>Route::get('https://proyecto-discord.herokuapp.com/api/messagesall',</strong>
+- Busca todos los mensajes del canal del juego.
+
+<strong>Route::put('https://proyecto-discord.herokuapp.com/api/updatedmessage/{id}'</strong>
+- Modifica el mensaje del canal del juego.
+
+<strong>Route::delete('https://proyecto-discord.herokuapp.com/api/deletemessage/{id}</strong>
+- Elimina el mensaje del canal del juego.
+
+
+
+
+
