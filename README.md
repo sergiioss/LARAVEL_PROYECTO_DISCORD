@@ -1,4 +1,4 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<p align="center"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 
 Endpoints:
@@ -6,8 +6,10 @@ Endpoints:
 <strong>Route::get('https://proyecto-discord.herokuapp.com/api')</strong>
 - Devuelve un string "Bienvenido a mi app de chats".
 
-<strong>Route::post('https://proyecto-discord.herokuapp.com/api/register'</strong>
-- Creamos un nuevo usuario en la aplicacion pasandole por body los campos: username, steamusername, password y email.
+<strong>Route::put('https://proyecto-discord.herokuapp.com/api/updateduser', [AuthController::class, 'updatedUser']);</strong>
+- Nos metemos dentro de nuestro perfil y podemos modificar 3 campos, username, steamusername y email.
+
+<stron>Route::post('https://proyecto-discord.herokuapp.com/api/register'</strong>
 
 <strong>Route::post('https://proyecto-discord.herokuapp.com/api/login'</strong>
 - El usuario hace log in introduciendo el email y el password.
@@ -53,6 +55,12 @@ Endpoints:
 
 <strong>Route::delete('https://proyecto-discord.herokuapp.com/api/deletechannel/{id}</strong>
 - Elimina el canal del juego.
+
+<stron>Route::put('https://proyecto-discord.herokuapp.com/api/loginchannel/{id}', [ChannelController::class, 'logoutChannel']);</strong>
+- Entras dentro del canal de chat del juego y puedes crear, modificar, leer todos los mensajes que has escrito y eliminarlos.
+
+<stron>Route::put('https://proyecto-discord.herokuapp.com/api/logoutchannel/{id}', [ChannelController::class, 'logoutChannel']);</strong>
+- Haces logout del canal y no puedes enviar mensajes, ni modificarlos, ni traerte todos los mensajes y tampoco eliminarlos.
 
 <strong>Route::post('https://proyecto-discord.herokuapp.com/api/create/message/{id}</strong>
 - Crea un mensaje dentro del canal del juego.
