@@ -30,7 +30,9 @@ Route::post('/login', [AuthController::class, 'login']);
 //Asi estan agrupados por los que tienen jwt.
 Route::group(["middleware" => "jwt.auth"] , function() {
     Route::get('/info', [AuthController::class, 'info']);
+    Route::put('/updateduser', [AuthController::class, 'updatedUser']); 
     Route::post('/logout', [AuthController::class, 'logout']); 
+
 });
 
 /* Route::get('/me', [AuthController::class, 'me'])->middleware('jwt.auth');
