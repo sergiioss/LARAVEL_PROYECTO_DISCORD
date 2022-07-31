@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class IsSuperAdmin
 {
-    const ROLE_SUPER_ADMIN = 3;
+    const ROLE_SUPER_ADMIN = 13;
 
     /**
      * Handle an incoming request.
