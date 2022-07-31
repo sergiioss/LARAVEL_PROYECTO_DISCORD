@@ -40,7 +40,7 @@ Route::group(["middleware" => "jwt.auth"] , function() {
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('jwt.auth'); */
 /* ------------------------ USER CONTROLLER -------------------------- */
 
-Route::group(["middleware" => ["jwt.auth", "IsSuperAdmin"]] , function() {
+Route::group(["middleware" => ["jwt.auth", "isSuperAdmin"]] , function() {
     /* ------------------------- ADMIN ----------------------------- */
         Route::post('/user/add_admin/{id}', [UserController::class, 'rolAdmin']);
         Route::post('/user/delete_admin/{id}', [UserController::class, 'deleteRolAdmin']);
