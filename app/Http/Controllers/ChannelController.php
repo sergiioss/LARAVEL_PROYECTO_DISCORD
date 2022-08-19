@@ -224,7 +224,6 @@ class ChannelController extends Controller
                     
                 );
             }else{
-                dump($channel);
                 $channel = DB::table('channel_user')
                 ->where('channel_id', $id)
                 ->update(['channel_user.login' => true]);
