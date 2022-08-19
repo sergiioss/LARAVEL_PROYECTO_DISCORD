@@ -96,8 +96,8 @@ class MessageController extends Controller
             );
         }
 
-        $messages = Message::where('user_id', $userId)
-        ->where('channel_id', $channelId)
+        $messages = Message::
+        where('channel_id', $channelId)
         ->get('messages');
 
         return response()->json([
