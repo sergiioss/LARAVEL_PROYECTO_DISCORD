@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function(){
-    return 'Bienvenido a mi app de chats';
+    return 'Bienvenido a mi app de chats.';
 });
 
 /* -------------------- AUTH CONTROLLER -------------------------- */
