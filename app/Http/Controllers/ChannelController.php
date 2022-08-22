@@ -205,29 +205,9 @@ class ChannelController extends Controller
 
             $userId = auth()->user()->id;
 
-            $channel = DB::table('channel_user')
-            ->where('channel_id', $id)
-            ->get();
+            $user = User::find($userId);
             
-            /* Aqui Le pregunto si ha encontrado la coincidencia del canal de manera que si ha encontrado algo aparecera un 1 y si no ha encontrado nada un 0 */
-
-            $cuantos = count($channel);
-
-            /* Aqui simplemente un if para que cuando sea 1 ejecute el guardado y si es 0 me devuelva error */
-
-            if($cuantos === 0){
-                return response()->json(
-                    [
-                        'success' => true,
-                        'message' => 'Ese canal no existe'
-                    ],
-                    
-                );
-            }else{
-                $channel = DB::table('channel_user')
-                ->where('channel_id', $id)
-                ->update(['channel_user.login' => true]);
-            }
+            $user->channels()->attach($id);
             
             return response()->json(
                 [
@@ -269,29 +249,9 @@ class ChannelController extends Controller
 
             $userId = auth()->user()->id;
 
-            $channel = DB::table('channel_user')
-            ->where('channel_id', $id)
-            ->get();
+            $user = User::find($userId);
             
-            /* Aqui Le pregunto si ha encontrado la coincidencia del canal de manera que si ha encontrado algo aparecera un 1 y si no ha encontrado nada un 0 */
-
-            $cuantos = count($channel);
-
-            /* Aqui simplemente un if para que cuando sea 1 ejecute el guardado y si es 0 me devuelva error */
-
-            if($cuantos === 0){
-                return response()->json(
-                    [
-                        'success' => true,
-                        'message' => 'Ese canal no existe'
-                    ],
-                    
-                );
-            }else{
-                $channel = DB::table('channel_user')
-                ->where('channel_id', $id)
-                ->update(['channel_user.login' => false]);
-            }
+            $user->channels()->detach($id);
             
             return response()->json(
                 [
